@@ -99,3 +99,4 @@ foreach ($item in $targets) {
 }
 
 Write-Host "All 10 LinkedIn high-resolution screenshots generated successfully!"
+
