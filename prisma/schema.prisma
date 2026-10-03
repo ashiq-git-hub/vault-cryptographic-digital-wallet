@@ -1,0 +1,94 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  passwordSalt String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  wallet       Wallet?
+  publicKeys   PublicKey[]
+  keyStore     KeyStore?
+  sentTxs      Transaction[] @relation("Sender")
+  receivedTxs  Transaction[] @relation("Receiver")
+  auditLogs    AuditLog[]
+}
+
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  balance   Float    @default(10000.0)
+  currency  String   @default("INR")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PublicKey {
+  id           String    @id @default(uuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  algorithm    String    @default("Ed25519")
+  publicKeyPem String
+  fingerprint  String
+  isRevoked    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  revokedAt    DateTime?
+}
+
+model KeyStore {
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  encryptedPrivateKey String
+  iv                  String
+  authTag             String
+  createdAt           DateTime @default(now())
+}
+
+model Transaction {
+  id                 String   @id @default(uuid())
+  txId               String   @unique
+  senderId           String
+  sender             User     @relation("Sender", fields: [senderId], references: [id])
+  receiverId         String
+  receiver           User     @relation("Receiver", fields: [receiverId], references: [id])
+  amount             Float
+  timestamp          String
+  nonce              String
+  canonicalPayload   String
+  transactionHash    String
+  signature          String
+  signatureAlgorithm String   @default("Ed25519")
+  encryptedNote      String?
+  encryptedNoteIv    String?
+  encryptedNoteTag   String?
+  status             String   // ACCEPTED, REJECTED, TAMPERED, REPLAY_ATTEMPT
+  statusReason       String
+  createdAt          DateTime @default(now())
+}
+
+model ProcessedNonce {
+  id        String   @id @default(uuid())
+  nonce     String   @unique
+  txId      String
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  eventType String   // LOGIN_SUCCESS, LOGIN_FAILURE, TRANSACTION_CREATED, TRANSACTION_VERIFIED, TRANSACTION_REJECTED, TAMPERING_DETECTED, REPLAY_DETECTED, SIGNATURE_FAILURE, KEY_GENERATED
+  details   String
+  createdAt DateTime @default(now())
+}
