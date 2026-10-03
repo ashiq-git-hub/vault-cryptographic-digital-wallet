@@ -13,6 +13,10 @@ import {
   X,
   Shield,
   ArrowRight,
+  Terminal,
+  Activity,
+  Layers,
+  Cpu,
 } from 'lucide-react';
 
 interface UserData {
@@ -36,8 +40,8 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const demoAccounts = [
-    { name: 'Alice', email: 'alice@wallet.secure', role: 'Sender / Primary Account' },
-    { name: 'Bob', email: 'bob@wallet.secure', role: 'Receiver' },
+    { name: 'Alice', email: 'alice@wallet.secure', role: 'Enterprise Sender' },
+    { name: 'Bob', email: 'bob@wallet.secure', role: 'Vendor Account' },
     { name: 'Charlie', email: 'charlie@wallet.secure', role: 'Merchant Peer' },
     { name: 'Ashiq', email: 'ashiq@wallet.secure', role: 'Security Auditor' },
   ];
@@ -104,7 +108,7 @@ export default function Navbar() {
   };
 
   const handleResetState = async () => {
-    if (!confirm('Reset all ledger balances, keys, and transaction history to the clean initial evaluation state?')) {
+    if (!confirm('Re-seed all simulated accounts, cryptographic keystores, and transaction history?')) {
       return;
     }
     try {
@@ -118,51 +122,55 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { name: 'Wallet', href: '/wallet' },
-    { name: 'Activity', href: '/transactions' },
-    { name: 'Security', href: '/security' },
-    { name: 'Cryptography Lab', href: '/crypto-lab' },
-    { name: 'Record Book', href: '/record-book' },
+    { name: 'Console', href: '/wallet' },
+    { name: 'Workbench', href: '/crypto-lab' },
+    { name: 'Attack Studio', href: '/security?tab=experiments' },
+    { name: 'Ledger', href: '/transactions' },
+    { name: 'API Reference', href: '/record-book' },
   ];
 
   const isLinkActive = (href: string) => {
     if (href === '/wallet') return pathname === '/wallet';
     if (href === '/record-book') return pathname === '/record-book';
-    return pathname.startsWith(href);
+    if (href.startsWith('/security')) return pathname.startsWith('/security');
+    if (href.startsWith('/crypto-lab')) return pathname.startsWith('/crypto-lab');
+    if (href.startsWith('/transactions')) return pathname.startsWith('/transactions');
+    return pathname === href;
   };
 
   return (
-    <header className="bg-[#FFFFFF] border-b border-[#E7E7E4] sticky top-0 z-40">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 w-full border-b border-[#e2e8f0] bg-white/90 backdrop-blur-md transition-all">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Brand */}
+          
+          {/* Brand Mark & Identity */}
           <div className="flex items-center gap-8">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-md bg-[#171717] text-[#FFFFFF] flex items-center justify-center font-semibold text-sm tracking-wider">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-8 h-8 rounded-lg bg-[#0c0d0d] text-white flex items-center justify-center font-bold text-sm tracking-wider shadow-sm group-hover:bg-[#673de6] transition-colors">
                 V
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-[#171717] text-[15px] tracking-tight leading-none group-hover:text-[#000000]">
+                <span className="font-extrabold text-[#0f172a] text-[15px] tracking-tight leading-none group-hover:text-[#673de6] transition-colors">
                   VAULT
                 </span>
-                <span className="text-[11px] text-[#6B6B6B] tracking-normal font-normal mt-0.5">
-                  Cryptographic Wallet
+                <span className="text-[10px] text-[#64748b] tracking-wider uppercase font-semibold mt-0.5">
+                  Cryptographic Infrastructure
                 </span>
               </div>
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1">
+            {/* Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center space-x-1">
               {navLinks.map((link) => {
                 const active = isLinkActive(link.href);
                 return (
                   <Link
-                    key={link.href}
+                    key={link.name}
                     href={link.href}
-                    className={`px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                       active
-                        ? 'bg-[#F2F2EE] text-[#171717]'
-                        : 'text-[#6B6B6B] hover:text-[#171717] hover:bg-[#FAF9F6]'
+                        ? 'bg-[#673de6]/10 text-[#673de6]'
+                        : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f1f5f9]'
                     }`}
                   >
                     {link.name}
@@ -172,38 +180,45 @@ export default function Navbar() {
             </nav>
           </div>
 
-          {/* Right Controls */}
+          {/* Right Controls & System Status */}
           <div className="hidden md:flex items-center gap-3">
+            
+            {/* System Status Pill Badge */}
+            <div className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-medium font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Production Verified</span>
+            </div>
+
             {currentUser ? (
               <div className="relative" ref={dropdownRef}>
                 <button
                   type="button"
                   onClick={() => setPersonaMenuOpen(!personaMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-[#E7E7E4] bg-[#FFFFFF] hover:bg-[#F7F7F5] transition-colors text-left"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#e2e8f0] bg-white hover:bg-[#f8fafc] transition-all text-left shadow-subtle"
                 >
-                  <div className="w-2 h-2 rounded-full bg-[#16845B]" />
-                  <span className="text-[13px] font-medium text-[#171717]">{currentUser.name}</span>
-                  <span className="text-[11px] text-[#6B6B6B] font-mono hidden lg:inline">
+                  <div className="w-2 h-2 rounded-full bg-[#10b981]" />
+                  <span className="text-xs font-semibold text-[#0f172a]">{currentUser.name}</span>
+                  <span className="text-[10px] text-[#64748b] font-mono hidden lg:inline">
                     ({currentUser.email.split('@')[0]})
                   </span>
-                  <ChevronDown className="w-3.5 h-3.5 text-[#8E8E8E]" />
+                  <ChevronDown className="w-3.5 h-3.5 text-[#94a3b8]" />
                 </button>
 
-                {/* Persona Switcher Dropdown */}
+                {/* Account Switcher Dropdown */}
                 {personaMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-72 bg-[#FFFFFF] rounded-xl border border-[#E7E7E4] shadow-popover py-1.5 z-50 text-[13px]">
-                    <div className="px-3.5 py-2 border-b border-[#EFEFED]">
-                      <div className="text-[11px] font-medium text-[#8E8E8E] uppercase tracking-wider">
-                        Active Persona
+                  <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl border border-[#e2e8f0] shadow-xl py-2 z-50 text-xs animate-fade-in">
+                    <div className="px-4 py-2.5 border-b border-[#f1f5f9]">
+                      <div className="text-[10px] font-semibold text-[#94a3b8] uppercase tracking-wider">
+                        Authenticated Persona
                       </div>
-                      <div className="font-semibold text-[#171717] mt-0.5">{currentUser.name}</div>
-                      <div className="text-[12px] text-[#6B6B6B] font-mono">{currentUser.email}</div>
+                      <div className="font-bold text-[#0f172a] text-sm mt-0.5">{currentUser.name}</div>
+                      <div className="text-[11px] text-[#64748b] font-mono">{currentUser.email}</div>
                     </div>
 
-                    <div className="px-3.5 pt-2 pb-1 text-[11px] font-medium text-[#8E8E8E] uppercase tracking-wider">
-                      Switch Test Persona
+                    <div className="px-4 pt-2.5 pb-1 text-[10px] font-semibold text-[#94a3b8] uppercase tracking-wider">
+                      Switch Test Tenant
                     </div>
-                    <div className="px-1.5 space-y-0.5">
+                    <div className="px-2 space-y-0.5">
                       {demoAccounts.map((acc) => {
                         const isCurrent = currentUser.email === acc.email;
                         return (
@@ -211,45 +226,45 @@ export default function Navbar() {
                             key={acc.email}
                             onClick={() => handleSwitchPersona(acc.email)}
                             disabled={switching !== null}
-                            className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md text-left transition-colors ${
+                            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left transition-all ${
                               isCurrent
-                                ? 'bg-[#F2F2EE] text-[#171717] font-medium'
-                                : 'text-[#404040] hover:bg-[#FAF9F6]'
+                                ? 'bg-[#673de6]/10 text-[#673de6] font-semibold'
+                                : 'text-[#334155] hover:bg-[#f8fafc]'
                             }`}
                           >
                             <div>
-                              <div className="text-[13px] leading-snug">{acc.name}</div>
-                              <div className="text-[11px] text-[#8E8E8E] leading-none mt-0.5">
+                              <div className="text-xs leading-snug">{acc.name}</div>
+                              <div className="text-[10px] text-[#94a3b8] leading-none mt-0.5 font-normal">
                                 {acc.role}
                               </div>
                             </div>
-                            {isCurrent && <Check className="w-4 h-4 text-[#16845B]" />}
+                            {isCurrent && <Check className="w-3.5 h-3.5 text-[#673de6]" />}
                           </button>
                         );
                       })}
                     </div>
 
-                    <div className="my-1.5 border-t border-[#EFEFED]" />
+                    <div className="my-2 border-t border-[#f1f5f9]" />
 
-                    <div className="px-1.5 space-y-0.5">
+                    <div className="px-2 space-y-0.5">
                       <Link
                         href="/profile"
                         onClick={() => setPersonaMenuOpen(false)}
-                        className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[#404040] hover:bg-[#FAF9F6] transition-colors"
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg text-[#334155] hover:bg-[#f8fafc] transition-colors"
                       >
-                        <User className="w-3.5 h-3.5 text-[#6B6B6B]" />
-                        <span>Keys &amp; Account Profile</span>
+                        <User className="w-3.5 h-3.5 text-[#64748b]" />
+                        <span>Keystores &amp; API Keys</span>
                       </Link>
                       <button
                         onClick={handleResetState}
-                        className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[#B7791F] hover:bg-[#FEF8EC] transition-colors text-left"
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-amber-700 hover:bg-amber-50 transition-colors text-left"
                       >
-                        <RotateCcw className="w-3.5 h-3.5" />
-                        <span>Reset Demo Ledger State</span>
+                        <RotateCcw className="w-3.5 h-3.5 text-amber-600" />
+                        <span>Re-seed System State</span>
                       </button>
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[#C44536] hover:bg-[#FDF2F1] transition-colors text-left"
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors text-left"
                       >
                         <LogOut className="w-3.5 h-3.5" />
                         <span>Sign out</span>
@@ -262,13 +277,13 @@ export default function Navbar() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/login"
-                  className="px-3.5 py-1.5 rounded-md text-[13px] font-medium text-[#171717] hover:bg-[#F2F2EE] transition-colors"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#0f172a] hover:bg-[#f1f5f9] transition-colors"
                 >
                   Sign in
                 </Link>
                 <Link
                   href="/register"
-                  className="px-3.5 py-1.5 rounded-md text-[13px] font-medium bg-[#171717] text-[#FFFFFF] hover:bg-[#000000] transition-colors"
+                  className="px-4 py-1.5 rounded-full text-xs font-semibold bg-[#673de6] text-white hover:bg-[#542bc7] transition-all shadow-cosmic"
                 >
                   Create account
                 </Link>
@@ -276,32 +291,33 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center">
+          {/* Mobile Menu Toggle Button */}
+          <div className="flex lg:hidden items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md text-[#6B6B6B] hover:text-[#171717] hover:bg-[#F2F2EE]"
-              aria-label="Toggle navigation menu"
+              className="p-2 rounded-lg text-[#64748b] hover:text-[#0f172a] hover:bg-[#f1f5f9]"
+              aria-label="Toggle navigation"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
+
         </div>
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#E7E7E4] bg-[#FFFFFF] px-4 pt-3 pb-4 space-y-3">
+        <div className="lg:hidden border-t border-[#e2e8f0] bg-white px-4 pt-3 pb-5 space-y-4">
           <nav className="space-y-1">
             {navLinks.map((link) => (
               <Link
-                key={link.href}
+                key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                className={`block px-3 py-2 rounded-lg text-sm font-semibold ${
                   isLinkActive(link.href)
-                    ? 'bg-[#F2F2EE] text-[#171717]'
-                    : 'text-[#6B6B6B] hover:bg-[#FAF9F6]'
+                    ? 'bg-[#673de6]/10 text-[#673de6]'
+                    : 'text-[#64748b] hover:bg-[#f8fafc]'
                 }`}
               >
                 {link.name}
@@ -310,8 +326,8 @@ export default function Navbar() {
           </nav>
 
           {currentUser && (
-            <div className="pt-3 border-t border-[#EFEFED] space-y-2">
-              <div className="text-xs text-[#8E8E8E] font-medium px-3 uppercase tracking-wider">
+            <div className="pt-3 border-t border-[#f1f5f9] space-y-2 text-xs">
+              <div className="text-[10px] text-[#94a3b8] font-semibold px-2 uppercase tracking-wider">
                 Logged in as {currentUser.name}
               </div>
               <div className="grid grid-cols-2 gap-1.5 px-1">
@@ -322,22 +338,22 @@ export default function Navbar() {
                       handleSwitchPersona(acc.email);
                       setMobileMenuOpen(false);
                     }}
-                    className="px-2.5 py-1.5 text-xs rounded border border-[#E7E7E4] text-left hover:bg-[#F7F7F5]"
+                    className="px-2.5 py-1.5 text-xs rounded-lg border border-[#e2e8f0] text-left hover:bg-[#f8fafc]"
                   >
-                    <div className="font-medium text-[#171717]">{acc.name}</div>
-                    <div className="text-[10px] text-[#8E8E8E]">{acc.role.split(' ')[0]}</div>
+                    <div className="font-semibold text-[#0f172a]">{acc.name}</div>
+                    <div className="text-[10px] text-[#94a3b8]">{acc.role.split(' ')[0]}</div>
                   </button>
                 ))}
               </div>
-              <div className="pt-2 flex items-center justify-between px-3 text-xs">
+              <div className="pt-2 flex items-center justify-between px-2 text-xs">
                 <Link
                   href="/profile"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[#6B6B6B] hover:text-[#171717]"
+                  className="text-[#64748b] hover:text-[#0f172a] font-medium"
                 >
-                  Profile &amp; Keys
+                  Keystores &amp; API Keys
                 </Link>
-                <button onClick={handleLogout} className="text-[#C44536]">
+                <button onClick={handleLogout} className="text-rose-600 font-semibold">
                   Sign out
                 </button>
               </div>
@@ -348,4 +364,3 @@ export default function Navbar() {
     </header>
   );
 }
-

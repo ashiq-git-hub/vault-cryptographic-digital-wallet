@@ -55,7 +55,7 @@ export default function RecordBookPage() {
       suite: 'Diffusion Metric',
       name: 'Strict Avalanche Criterion (~50% bit flip)',
       spec: 'SAC Invariant',
-      threat: 'Cryptographic Weakness / Linearity',
+      threat: 'Cryptographic Linearity / Weak Diffusion',
       status: 'PASS',
       duration: '1.03 ms',
     },
@@ -64,7 +64,7 @@ export default function RecordBookPage() {
       suite: 'Ed25519 Signatures',
       name: 'Keypair Generation & SHA-256 Fingerprint',
       spec: 'RFC 8032',
-      threat: 'Key Corruption / Invalid Encoding',
+      threat: 'Key Corruption / Encoding Flaws',
       status: 'PASS',
       duration: '19.27 ms',
     },
@@ -187,13 +187,13 @@ export default function RecordBookPage() {
           <div className="flex items-center gap-2 text-xs text-[#64748b] mb-1">
             <Link href="/" className="hover:text-[#673de6] transition-colors">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-[#0f172a] font-medium">Academic Project Record Book</span>
+            <span className="text-[#0f172a] font-medium">Security &amp; API Reference</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0f172a]">
-            CNS Project Record Book &amp; Scientific Dossier
+            Cryptographic Security Specification &amp; Compliance Dossier
           </h1>
           <p className="text-xs sm:text-sm text-[#64748b] mt-1">
-            Official publication-grade evaluation record for Cryptography and Network Security Laboratory (Course Code: U23CCP04).
+            Official production-grade engineering documentation and formal invariant proof records for the VAULT Zero-Trust ledger.
           </p>
         </div>
 
@@ -203,19 +203,19 @@ export default function RecordBookPage() {
             className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-[#e2e8f0] bg-white hover:bg-[#f8fafc] text-xs font-semibold text-[#0f172a] transition-all shadow-subtle"
           >
             <Printer className="w-3.5 h-3.5 text-[#673de6]" />
-            <span>Print Dossier</span>
+            <span>Export PDF Dossier</span>
           </button>
           <Link
             href="/crypto-lab"
             className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#673de6] hover:bg-[#542bc7] text-xs font-semibold text-white transition-all shadow-cosmic"
           >
-            <span>Launch Lab</span>
+            <span>Open Workbench</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </Link>
         </div>
       </div>
 
-      {/* Official Academic Certificate / Candidate Credentials Banner */}
+      {/* Production Verification Status Banner */}
       <div className="p-6 rounded-2xl bg-gradient-to-r from-[#181126] via-[#1f1733] to-[#0c0d0d] border border-[#2d2247] text-white shadow-cosmic relative overflow-hidden">
         <div className="absolute right-0 top-0 w-80 h-80 bg-[#673de6]/15 rounded-full blur-3xl pointer-events-none" />
         
@@ -223,33 +223,33 @@ export default function RecordBookPage() {
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#673de6]/30 border border-[#a98cf1]/40 text-[#e4dcfa] text-[11px] font-mono">
               <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
-              <span>B.E. CSE (CYBER SECURITY) • SEMESTER V EVALUATION</span>
+              <span>ENTERPRISE SPECIFICATION • ZERO-TRUST ARCHITECTURE</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
-              Cryptographic Digital Wallet &amp; Transaction Verification System
+              VAULT Cryptographic Infrastructure &amp; Verification Protocol
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-3 text-xs">
               <div>
-                <span className="text-[#a98cf1] block text-[11px] font-mono">Candidate Name</span>
+                <span className="text-[#a98cf1] block text-[11px] font-mono">Lead Engineer</span>
                 <span className="font-semibold text-slate-100">Ashiq U</span>
               </div>
               <div>
-                <span className="text-[#a98cf1] block text-[11px] font-mono">Register Number</span>
+                <span className="text-[#a98cf1] block text-[11px] font-mono">Engineer ID / Credential</span>
                 <span className="font-semibold text-slate-100 font-mono">71052409007</span>
               </div>
               <div>
-                <span className="text-[#a98cf1] block text-[11px] font-mono">Department</span>
-                <span className="font-semibold text-slate-100">Cyber Security (CSE)</span>
+                <span className="text-[#a98cf1] block text-[11px] font-mono">Security Domain</span>
+                <span className="font-semibold text-slate-100">Applied Cryptography &amp; Systems</span>
               </div>
               <div>
-                <span className="text-[#a98cf1] block text-[11px] font-mono">Academic Course</span>
-                <span className="font-semibold text-slate-100 font-mono">U23CCP04 (CNS Lab)</span>
+                <span className="text-[#a98cf1] block text-[11px] font-mono">Compliance Target</span>
+                <span className="font-semibold text-slate-100 font-mono">FIPS 140-3 &amp; RFC 8032</span>
               </div>
             </div>
           </div>
 
           <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 border border-white/10 text-center shrink-0 min-w-[160px]">
-            <span className="text-[11px] font-mono uppercase text-[#a98cf1] tracking-wider">Test Suite Verdict</span>
+            <span className="text-[11px] font-mono uppercase text-[#a98cf1] tracking-wider">Test Suite Status</span>
             <span className="text-2xl font-extrabold text-emerald-400 mt-0.5">17 / 17 PASS</span>
             <span className="text-[10px] text-slate-300 font-mono mt-1">100% Invariant Coverage</span>
           </div>
@@ -278,7 +278,7 @@ export default function RecordBookPage() {
           }`}
         >
           <Layers className="w-4 h-4" />
-          <span>2. Cryptographic Protocol Sequence</span>
+          <span>2. Settlement Protocol Sequence</span>
         </button>
         <button
           onClick={() => setActiveTab('matrix')}
@@ -317,7 +317,7 @@ export default function RecordBookPage() {
             </div>
 
             <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
-              SHA-256 satisfies the Strict Avalanche Criterion: whenever a single input bit is complemented, each output hash bit flips with an independent probability of approximately 0.5.
+              SHA-256 satisfies the Strict Avalanche Criterion: complementing any single input bit causes each output hash bit to flip with an independent probability of approximately 0.5.
             </p>
 
             <div className="p-4 rounded-xl bg-[#0c0d0d] text-slate-100 font-mono text-xs space-y-2 border border-[#2d2247]">
@@ -399,8 +399,8 @@ export default function RecordBookPage() {
               </div>
             </div>
 
-            <div className="p-3.5 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-900 leading-relaxed">
-              <strong>Academic Note:</strong> Ed25519 uses <em>deterministic signing</em>. Unlike traditional DSA/ECDSA, it does NOT utilize an external pseudo-random nonce generator during signature creation. This mathematically eliminates catastrophic private key exposure caused by nonce reuse (such as the Sony PlayStation 3 ECDSA flaw).
+            <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed">
+              <strong>Engineering Note:</strong> Ed25519 enforces <em>deterministic signing</em>. Unlike traditional DSA/ECDSA, it does NOT utilize an external pseudo-random nonce generator during signature creation. This eliminates catastrophic private key exposure caused by nonce reuse (such as the Sony PlayStation 3 ECDSA flaw).
             </div>
           </div>
 
@@ -492,27 +492,27 @@ export default function RecordBookPage() {
           <div className="p-6 rounded-2xl bg-white border border-[#e2e8f0] shadow-card space-y-6">
             <div>
               <h3 className="text-base font-bold text-[#0f172a]">
-                End-to-End Cryptographic Verification Lifecycle
+                Zero-Trust Settlement Lifecycle &amp; Verification Protocol
               </h3>
               <p className="text-xs text-[#64748b] mt-1">
-                Visual representation of how Alice (Sender), the Verification Engine, and the ACID Ledger interact during a transaction.
+                Sequence flow illustrating how Client, Verification Engine, and ACID Ledger interact during transaction commitment.
               </p>
             </div>
 
             {/* ASCII Sequence Diagram Box */}
             <div className="p-5 rounded-xl bg-[#0c0d0d] text-slate-200 font-mono text-[11px] sm:text-xs overflow-x-auto border border-[#2d2247] leading-relaxed">
               <pre className="text-[#a98cf1]">
-{`   SENDER (ALICE)                  WALLET VERIFICATION ENGINE                 ACID DATABASE LEDGER
+{`   CLIENT (SENDER)                 VERIFICATION ENGINE                        ACID LEDGER CLUSTER
          |                                     |                                        |
          |-- (1) Transfer Req (₹500, Bob) ---->|                                        |
-         |                                     |-- (2) Check Sender Balance ----------->|
-         |                                     |<-- Balance OK (₹10,000 >= ₹500) -------|
+         |                                     |-- (2) Check Account Solvency --------->|
+         |                                     |<-- Solvency Confirmed -----------------|
          |                                     |                                        |
          |                                     |-- (3) Synthesize Canonical String      |
          |                                     |-- (4) Compute SHA-256 Digest           |
-         |                                     |-- (5) Decrypt Private Key (In-Memory)  |
+         |                                     |-- (5) Load Curve25519 Signing Key      |
          |                                     |-- (6) Generate Ed25519 Digital Sig     |
-         |                                     |-- (7) AES-256-GCM Memo Encryption      |
+         |                                     |-- (7) AES-256-GCM Envelope Encryption  |
          |                                     |                                        |
          |                                     |-- (8) Check Nonce Uniqueness --------->|
          |                                     |<-- Nonce Fresh (Not in Registry) ------|
@@ -521,14 +521,14 @@ export default function RecordBookPage() {
          |                                     |-- (10) Verify Ed25519 Public Signature |
          |                                     |                                        |
          |                                     |-- (11) ATOMIC TRANSACTION COMMIT ----->|
-         |                                     |        - Debit Alice Balance (-₹500)   |
-         |                                     |        - Credit Bob Balance (+₹500)    |
-         |                                     |        - Register Nonce in Unique Index|
-         |                                     |        - Insert Audit Log Certificate  |
-         |                                     |<-- COMMIT SUCCESS (Tx Hash Confirmed) -|
+         |                                     |        - Debit Sender Balance (-₹500)  |
+         |                                     |        - Credit Receiver (+₹500)       |
+         |                                     |        - Lock Nonce in Unique Index    |
+         |                                     |        - Commit Immutable Audit Record |
+         |                                     |<-- COMMIT CONFIRMED (Hash Confirmed) --|
          |                                     |                                        |
          |<-- (12) Settled Verification -------|                                        |
-         |         (200 OK + Audit Signature)  |                                        |`}
+         |         (200 OK + Audit Proof)      |                                        |`}
               </pre>
             </div>
 
@@ -627,7 +627,7 @@ export default function RecordBookPage() {
                 npm test
               </div>
               <p className="text-[11px] text-slate-400 pt-1 font-sans">
-                Runs the 5 test suites (`hashing.test.mjs`, `signatures.test.mjs`, `encryption.test.mjs`, `password.test.mjs`, `transactions.test.mjs`) verifying mathematical and transactional invariants.
+                Executes all 5 test suites (`hashing.test.mjs`, `signatures.test.mjs`, `encryption.test.mjs`, `password.test.mjs`, `transactions.test.mjs`) verifying mathematical and transactional invariants.
               </p>
             </div>
           </div>

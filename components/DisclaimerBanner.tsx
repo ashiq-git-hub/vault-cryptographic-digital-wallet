@@ -1,29 +1,28 @@
 'use client';
 
 import React from 'react';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, Cpu } from 'lucide-react';
 
 export default function DisclaimerBanner() {
   return (
     <aside
-      aria-label="Academic Simulation Notice"
-      className="bg-[#F2F2EE] border-b border-[#E7E7E4] text-[#6B6B6B] text-[12px] py-1.5 px-4"
+      aria-label="Security Sandbox Notice"
+      className="bg-[#0c0d0d] border-b border-[#2d2247]/60 text-slate-400 text-[11px] py-1 px-4 font-mono"
     >
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1.5 font-normal">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1.5">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 font-medium text-[#171717] bg-[#FFFFFF] border border-[#E7E7E4] px-1.5 py-0.5 rounded text-[11px]">
-            Academic Simulation
+          <span className="inline-flex items-center gap-1 font-semibold text-[#a98cf1] bg-[#181126] border border-[#673de6]/40 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider">
+            Security Sandbox
           </span>
-          <span>
-            Simulated ledger &bull; Fictional currency (INR &#8377;) &bull; Zero external banking connectivity
+          <span className="text-slate-300">
+            Isolated cryptographic ledger simulation &bull; Sovereign key custody &bull; Zero external banking connectivity
           </span>
         </div>
-        <div className="flex items-center gap-2 text-[11px] text-[#8E8E8E] font-mono hidden sm:flex">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#16845B]" />
-          <span>SHA-256 &bull; Ed25519 &bull; AES-256-GCM &bull; PBKDF2</span>
+        <div className="flex items-center gap-2 text-slate-400 hidden md:flex text-[11px]">
+          <Cpu className="w-3.5 h-3.5 text-[#a98cf1]" />
+          <span>FIPS 180-4 &bull; RFC 8032 &bull; NIST SP 800-38D &bull; RFC 8785</span>
         </div>
       </div>
     </aside>
   );
 }
-
