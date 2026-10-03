@@ -122,10 +122,12 @@ export default function Navbar() {
     { name: 'Activity', href: '/transactions' },
     { name: 'Security', href: '/security' },
     { name: 'Cryptography Lab', href: '/crypto-lab' },
+    { name: 'Record Book', href: '/record-book' },
   ];
 
   const isLinkActive = (href: string) => {
     if (href === '/wallet') return pathname === '/wallet';
+    if (href === '/record-book') return pathname === '/record-book';
     return pathname.startsWith(href);
   };
 
