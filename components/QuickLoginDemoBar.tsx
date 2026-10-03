@@ -159,3 +159,4 @@ export default function QuickLoginDemoBar({ currentUserEmail: propEmail, onUserS
     </div>
   );
 }
+
