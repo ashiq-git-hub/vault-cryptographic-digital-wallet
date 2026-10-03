@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   ArrowDown,
   ArrowRight,
@@ -15,8 +16,16 @@ import {
   Lock,
 } from 'lucide-react';
 
-export default function CryptoLabPage() {
+function CryptoLabContent() {
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get('tab');
   const [activeTab, setActiveTab] = useState<'hashing' | 'encryption' | 'signatures' | 'protocol'>('hashing');
+
+  useEffect(() => {
+    if (tabParam && ['hashing', 'encryption', 'signatures', 'protocol'].includes(tabParam)) {
+      setActiveTab(tabParam as any);
+    }
+  }, [tabParam]);
 
   // 1. Hashing state
   const [hashInput1, setHashInput1] = useState('Transfer ₹500 to Bob');
@@ -104,6 +113,12 @@ export default function CryptoLabPage() {
       setSignLoading(false);
     }
   };
+
+  useEffect(() => {
+    handleGenerateHash();
+    handleRunAes();
+    handleRunSign();
+  }, []);
 
   const protocolSteps = [
     {
@@ -665,4 +680,13 @@ export default function CryptoLabPage() {
     </div>
   );
 }
+
+export default function CryptoLabPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-xs text-[#6B6B6B]">Loading Cryptography Workbench...</div>}>
+      <CryptoLabContent />
+    </Suspense>
+  );
+}
+
 

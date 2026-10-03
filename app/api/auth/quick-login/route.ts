@@ -55,3 +55,37 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const url = new URL(req.url);
+    const email = url.searchParams.get('email') || 'alice@wallet.secure';
+    const redirectUrl = url.searchParams.get('redirect') || '/wallet';
+
+    const user = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
+    if (!user) {
+      return NextResponse.redirect(new URL('/login', req.url));
+    }
+
+    const token = createSessionToken(user.id);
+    const response = NextResponse.redirect(new URL(redirectUrl, req.url));
+
+    response.cookies.set({
+      name: SESSION_COOKIE_NAME,
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: SESSION_EXPIRY_MS / 1000,
+    });
+
+    return response;
+  } catch (error) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
+}
+
